@@ -1,6 +1,6 @@
 # Simple Meta-Transaction Example
 
-This repo shows how to use the OpenZeppelin meta-transaction library to implement an 
+This repo shows how to implement an 
 [EIP-2771](https://eips.ethereum.org/EIPS/eip-2771) compatible contract using the OpenZeppelin contract library. 
 The example also relies on [EIP-712](https://eips.ethereum.org/EIPS/eip-712) for typed data signing. The example 
 uses the [Hardhat](https://hardhat.org/) framework for compilation and execution. 
