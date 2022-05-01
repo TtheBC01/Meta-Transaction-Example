@@ -7,6 +7,7 @@ async function deploy(name, ...params) {
   return await Contract.deploy(...params).then(f => f.deployed());
 }
 
+// see https://eips.ethereum.org/EIPS/eip-712 for more info
 const EIP712Domain = [
   { name: 'name', type: 'string' },
   { name: 'version', type: 'string' },
@@ -48,10 +49,6 @@ async function signTypedData(signer, from, data) {
 
   // Otherwise, send the signTypedData RPC call
   // Note that hardhatvm and metamask require different EIP712 input
-/*   const isHardhat = data.domain.chainId == 31337;
-  const [method, argData] = isHardhat
-    ? ['eth_signTypedData', data]
-    : ['eth_signTypedData_v4', JSON.stringify(data)] */
   const [method, argData] = ['eth_signTypedData_v4', JSON.stringify(data)];
   return await signer.send(method, [from, argData]);
 }
@@ -125,10 +122,11 @@ describe("Greeter", function() {
       data: greeter.interface.encodeFunctionData('greet', []),
     });
 	
+	// now have the relayer account execute the meta-tx with it's own funds
 	const receipt = await minimalforwarder.execute(request, signature).then(tx => tx.wait());
 	console.log(receipt.events);
 	
-	// now check the end user's funds after the transaction has been sent
+	// check the end user's funds after the transaction has been sent, they should be untouched
 	const endUserFundsAfter = await ethers.provider.getBalance(endUser.address);
 	const endUserFundsWereNotUsed = (endUserFundsAfter.toString() === endUserFundsBefore.toString());
 	
