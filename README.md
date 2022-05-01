@@ -49,7 +49,7 @@ CALL Greeter.greet()
 ```
 
 In the [second unit test](/test/sample-test.js#L106), a new account, `relayer`, will submit a transaction from
-an instance of the [`MinimalForwarder`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/MinimalForwarder.sol) implementation which will implicitly make a call to the `greet` function on behalf
+an instance of the [`MinimalForwarder`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/MinimalForwarder.sol) implementation which will implicitly make a call to the `greet()` function on behalf
 of the `endUser` account. After the transaction is mined, you will see the the balance of `endUser` remains the same and 
 event tracing will show that the address of `endUser` was logged in the Ethereum event. 
 
