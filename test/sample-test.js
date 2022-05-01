@@ -115,7 +115,7 @@ describe("Greeter", function() {
 	const minimalforwarder = this.forwarder.connect(relayer);
 	const greeter = this.greeter;
 	
-    // construct the signed payload for the relayer to accept on the end user's behalf
+	// construct the signed payload for the relayer to accept on the end user's behalf
 	const { request, signature } = await signMetaTxRequest(endUser.provider, minimalforwarder, {
 	  from: endUser.address,
 	  to: greeter.address,
