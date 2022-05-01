@@ -98,7 +98,7 @@ describe("Greeter", function() {
 	const endUserFundsWereUsed = (endUserFundsAfter < endUserFundsBefore);
 	
 	// End user's address was logged in the greet call and their funds have been reduced
-    expect(receipt.events[0].event).to.equal('Greatings');
+	expect(receipt.events[0].event).to.equal('Greatings');
 	expect(receipt.events[0].args[0]).to.equal(endUser.address);
 	expect(endUserFundsWereUsed).to.equal(true);
   });
@@ -116,11 +116,11 @@ describe("Greeter", function() {
 	const greeter = this.greeter;
 	
     // construct the signed payload for the relayer to accept on the end user's behalf
-    const { request, signature } = await signMetaTxRequest(endUser.provider, minimalforwarder, {
-      from: endUser.address,
-      to: greeter.address,
-      data: greeter.interface.encodeFunctionData('greet', []),
-    });
+	const { request, signature } = await signMetaTxRequest(endUser.provider, minimalforwarder, {
+	  from: endUser.address,
+	  to: greeter.address,
+	  data: greeter.interface.encodeFunctionData('greet', []),
+	});
 	
 	// now have the relayer account execute the meta-tx with it's own funds
 	const receipt = await minimalforwarder.execute(request, signature).then(tx => tx.wait());
