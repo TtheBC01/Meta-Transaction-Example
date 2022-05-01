@@ -97,7 +97,6 @@ dist
 # Hardhat build directories
 artifacts/
 cache/
-package.json
 package-lock.json
 
 # FuseBox cache
