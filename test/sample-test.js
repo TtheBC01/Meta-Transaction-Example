@@ -71,8 +71,10 @@ async function signMetaTxRequest(signer, forwarder, input) {
   return { signature, request };
 }
 
+// ----------------------------------------------------------------------------------------
+// Unit tests start here
+// ----------------------------------------------------------------------------------------
 describe("Greeter", function() {
-  
   beforeEach(async () => {
 	// deploy the meta-tx forwarder contract
 	this.forwarder = await deploy("MinimalForwarder");
@@ -103,7 +105,7 @@ describe("Greeter", function() {
 	expect(endUserFundsWereUsed).to.equal(true);
   });
   
-  it("Transaction uses forwarder's funds for gas.", async () => {
+  it("Transaction uses relayer's funds for gas.", async () => {
 	// extract the account to act as the end user and check its ETH balance
 	const endUser = this.accounts[0]; 
 	const endUserFundsBefore = await ethers.provider.getBalance(endUser.address);
