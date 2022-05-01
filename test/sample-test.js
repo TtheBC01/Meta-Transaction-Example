@@ -41,14 +41,7 @@ function getMetaTxTypeData(chainId, verifyingContract) {
 };
 
 async function signTypedData(signer, from, data) {
-  // If signer is a private key, use it to sign
-  if (typeof(signer) === 'string') {
-    const privateKey = Buffer.from(signer.replace(/^0x/, ''), 'hex');
-    return ethSigUtil.signTypedMessage(privateKey, { data });
-  }
-
-  // Otherwise, send the signTypedData RPC call
-  // Note that hardhatvm and metamask require different EIP712 input
+  // Send the signTypedData RPC call
   const [method, argData] = ['eth_signTypedData_v4', JSON.stringify(data)];
   return await signer.send(method, [from, argData]);
 }
@@ -124,17 +117,16 @@ describe("Greeter", function() {
 	  data: greeter.interface.encodeFunctionData('greet', []),
 	});
 	
-	// now have the relayer account execute the meta-tx with it's own funds
+	// now pass the request and signature over to the relayer account and have the relayer account 
+	// execute the meta-tx with it's own funds
 	const receipt = await minimalforwarder.execute(request, signature).then(tx => tx.wait());
-	console.log(receipt.events);
 	
 	// check the end user's funds after the transaction has been sent, they should be untouched
 	const endUserFundsAfter = await ethers.provider.getBalance(endUser.address);
 	const endUserFundsWereNotUsed = (endUserFundsAfter.toString() === endUserFundsBefore.toString());
 	
 	// End user's address was logged in the greet call and their funds have not been used
-/*     expect(receipt.events[0].event).to.equal('Greatings');
-	expect(receipt.events[0].args[0]).to.equal(endUser.address); */
+	// User npx hardhat test --trace to see the event
 	expect(endUserFundsWereNotUsed).to.equal(true);
   });
 });
