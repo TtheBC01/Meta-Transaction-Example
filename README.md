@@ -39,7 +39,7 @@ npx hardhat test --trace
 
 ## Expected behavior
 
-In the [first unit test](/test/sample-test.js#L87), a normal call to `greet()` is preformed by an account acting as
+In the [first unit test](/test/metatx-test.js#L82), a normal call to `greet()` is preformed by an account acting as
 an end user. You will see that the end user's funds are used in order to pay for the transaction fee. If you turn on 
 event tracing, you will see the following event emitted:
 
@@ -48,7 +48,7 @@ CALL Greeter.greet()
    EVENT Greeter.Greatings(who=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, what="Hello, World!")
 ```
 
-In the [second unit test](/test/sample-test.js#L106), a new account, `relayer`, will submit a transaction from
+In the [second unit test](/test/metatx-test.js#L99), a new account, `relayer`, will submit a transaction from
 an instance of the [`MinimalForwarder`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/MinimalForwarder.sol) implementation which will implicitly make a call to the `greet()` function on behalf
 of the `endUser` account. After the transaction is mined, you will see the the balance of `endUser` remains the same and 
 event tracing will show that the address of `endUser` was logged in the Ethereum event. 
