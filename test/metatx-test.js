@@ -86,15 +86,13 @@ describe("Greeter", function() {
 	
 	// connect end user's account to the Greeting contract handle and make a transaction
 	const greeter = this.greeter.connect(endUser);
-	const receipt = await greeter.greet().then(tx => tx.wait());
+	await expect(greeter.greet()).to.emit(greeter, 'Greatings').withArgs(endUser.address, "Hello, World!");
 	
 	// now check the end user's funds after the transaction has been sent
 	const endUserFundsAfter = await ethers.provider.getBalance(endUser.address);
 	const endUserFundsWereUsed = (endUserFundsAfter < endUserFundsBefore);
 	
 	// End user's address was logged in the greet call and their funds have been reduced
-	expect(receipt.events[0].event).to.equal('Greatings');
-	expect(receipt.events[0].args[0]).to.equal(endUser.address);
 	expect(endUserFundsWereUsed).to.equal(true);
   });
   
