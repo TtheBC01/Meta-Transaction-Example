@@ -119,7 +119,7 @@ describe("Greeter", function() {
 	
 	// now pass the request and signature over to the relayer account and have the relayer account 
 	// execute the meta-tx with it's own funds
-	const receipt = await minimalforwarder.execute(request, signature).then(tx => tx.wait());
+	await expect(minimalforwarder.execute(request, signature)).to.emit(greeter, 'Greatings').withArgs(endUser.address, "Hello, World!");
 	
 	// check the end user's funds after the transaction has been sent, they should be untouched
 	const endUserFundsAfter = await ethers.provider.getBalance(endUser.address);
